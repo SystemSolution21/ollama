@@ -1,0 +1,47 @@
+To solve the quadratic equation x^2 + 5x + 6 = 0, we can use factoring or the quadratic formula.
+
+**Factoring method:**
+
+We need to find two numbers whose product is 6 and whose sum is 5. These numbers are 3 and 2.
+
+So, we can rewrite the equation as:
+
+x^2 + 5x + 6 = (x + 3)(x + 2) = 0
+
+This tells us that either (x + 3) = 0 or (x + 2) = 0.
+
+Solving for x, we get:
+
+x + 3 = 0 => x = -3
+
+x + 2 = 0 => x = -2
+
+Therefore, the solutions to the equation are x = -3 and x = -2.
+
+**Quadratic formula method:**
+
+If factoring doesn't work, we can use the quadratic formula:
+
+x = (-b ± √(b^2 - 4ac)) / 2a
+
+In this case, a = 1, b = 5, and c = 6.
+
+Plugging these values into the formula, we get:
+
+x = (-(5) ± √((5)^2 - 4(1)(6))) / 2(1)
+
+x = (-5 ± √(25 - 24)) / 2
+
+x = (-5 ± √1) / 2
+
+x = (-5 ± 1) / 2
+
+So, we have two possible solutions:
+
+x = (-5 + 1) / 2 => x = -4/2 => x = -2
+
+x = (-5 - 1) / 2 => x = -6/2 => x = -3
+
+Therefore, the solutions to the equation are x = -3 and x = -2.
+
+Both methods give us the same solutions: x = -3 and x = -2.
