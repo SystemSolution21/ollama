@@ -8,12 +8,12 @@ prompt = "How to solve quadratic equation x^2+5x+6=0"
 # Current directory file path
 file_path: Path = Path(__file__).parent
 
-# Ollama ChatResponse
-response: ollama.ChatResponse = ollama.chat(
+# Create Ollama Chat Response
+chat_response: ollama.ChatResponse = ollama.chat(
     model=model_deepseek, messages=[{"role": "user", "content": prompt}]
 )
 
-deepseek_response = response["message"]["content"]
+deepseek_response = chat_response["message"]["content"]
 
 print(deepseek_response)
 
