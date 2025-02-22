@@ -11,3 +11,9 @@ wheels/
 
 # open-webui
 .webui_secret_key
+
+# Environment Variables
+.env
+
+# uv lock file
+uv.lock
