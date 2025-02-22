@@ -9,13 +9,13 @@ st.title(body="LLM application based on deepseek-r1(run locally)")
 
 
 # Generate deepseek response
-def generate_deepseek_response(promt: str):
+def generate_deepseek_response(prompt: str):
     response: ollama.ChatResponse = ollama.chat(
         model=model_deepseek,
         messages=[
             {
                 "role": "user",
-                "content": promt,
+                "content": prompt,
             }
         ],
     )
@@ -34,7 +34,7 @@ def main() -> None:
         submitted = st.form_submit_button(label="Submit")
 
         if submitted:
-            generate_deepseek_response(promt=prompt)
+            generate_deepseek_response(prompt=prompt)
 
 
 if __name__ == "__main__":
