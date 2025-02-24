@@ -15,19 +15,19 @@ app = FastAPI()
 
 
 # Verify API key
-def verify_api_key(api_key: str = Header(default=None)) -> str:
-    credits: int = API_KEY_CREDITS.get(api_key, 0)
+async def verify_api_key(x_api_key: str = Header(default=None)) -> str:
+    credits: int = API_KEY_CREDITS.get(x_api_key, 0)
     if credits <= 0:
         raise HTTPException(status_code=401, detail="Invalid API key, or no credits.")
-    return api_key
+    return x_api_key
 
 
 # Generate LLM Response
 @app.post(path="/gen_llm_res")
-def gen_llm_res(prompt: str, api_key=Depends(dependency=(verify_api_key))):
+async def gen_llm_res(prompt: str, x_api_key=Depends(dependency=(verify_api_key))):
 
     # Decrement Credit
-    API_KEY_CREDITS[api_key] -= 1
+    API_KEY_CREDITS[x_api_key] -= 1
 
     # LLM Response
     response: ChatResponse = chat(
