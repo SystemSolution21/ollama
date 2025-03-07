@@ -10,9 +10,9 @@ import os
 load_dotenv()
 
 # Set llm model
-model: str = "llama3.2:3b"
+# model: str = "llama3.2:3b"
+# model: str = "openthinker:7b"
 model: str = "deepseek-r1:14b"
-model: str = "openthinker:7b"
 
 # Set page config
 st.set_page_config(page_title="Streamlit-llm-Streaming", page_icon="🤖")
