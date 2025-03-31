@@ -11,6 +11,6 @@ dependencies = [
     "ollama>=0.4.7",
     "python-dotenv>=1.0.1",
     "requests>=2.32.3",
-    "streamlit>=1.41.1",
+    "streamlit>=1.44.0",
     "uvicorn>=0.34.0",
 ]
