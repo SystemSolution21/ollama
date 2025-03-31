@@ -5,6 +5,7 @@ from ollama import chat, ChatResponse
 model: str = "llama3.2:3b"
 model: str = "openthinker:7b"
 model: str = "deepseek-r1:14b"
+model: str = "gemma3:4b"
 
 # Set page config
 st.set_page_config(page_title="Streamlit-Ollama-llm", page_icon="🐋")
@@ -31,7 +32,7 @@ def generate_llm_response(prompt: str) -> None:
     )
 
     # Display response
-    st.info(body=response["message"]["content"])
+    st.markdown(body=response["message"]["content"])
 
 
 def main() -> None:

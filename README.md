@@ -1,4 +1,4 @@
-Ollama:
+stOllama:
 llama3.2:3b
 deepseek-r1:14b
 openthinker:7b
@@ -13,3 +13,8 @@ $ streamlit run app.py
 
 FastAPI:
 $ uvicorn main:app --reload
+
+Open WebUI:
+.webui_secret_key
+$ open-webui serve
+http://localhost:8080/auth

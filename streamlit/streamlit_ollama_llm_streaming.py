@@ -10,9 +10,9 @@ import os
 load_dotenv()
 
 # Set llm model
-# model: str = "llama3.2:3b"
 # model: str = "openthinker:7b"
-model: str = "deepseek-r1:14b"
+# model: str = "deepseek-r1:14b"
+model: str = "llama3.2:3b"
 
 # Set page config
 st.set_page_config(page_title="Streamlit-llm-Streaming", page_icon="🤖")
@@ -28,7 +28,7 @@ st.write("Hello! How can i assist you today?")
 
 # User input
 user_prompt: str = st.text_input(
-    label="Your prompt:", value="Explain quantum computing in simple terms"
+    label="Your prompt:", value="Explain streamlit in simple terms"
 )
 
 # Container to hold the streaming response
