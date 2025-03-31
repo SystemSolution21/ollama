@@ -8,6 +8,7 @@ dependencies = [
     "fastapi>=0.115.8",
     "flask>=3.1.0",
     "flask-sqlalchemy>=3.1.1",
+    "gnews>=0.4.1",
     "ollama>=0.4.7",
     "python-dotenv>=1.0.1",
     "requests>=2.32.3",
