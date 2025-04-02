@@ -1,5 +1,25 @@
-This tutorial shows how to extract machine learning features from text data with structured outputs using large language models. The tech stack includes open-source AI tools such as Ollama and Meta's Llama3.2 large language model, as well as the pandas and gnews libraries.
+Example shows how to:
 
-As an example, the tutorial shows how to filter for future-looking stock sentiment from news article headlines when creating financial sentiment scores.
+1. Fetch real-time news headlines about stocks (NVDA) using GNews
+2. Process each headline through an LLM to analyze two key aspects:
+   - Financial sentiment (positive/negative/neutral)
+   - Future outlook indicator (True/False)
+3. Use structured output with Pydantic models to ensure consistent formatting:
+   ```python
+   class FinancialSentimentAnalysis(BaseModel):
+       sentiment: str
+       future_looking: bool
+   ```
+4. LLM makes decisions based on predefined criteria:
+   - Sentiment analysis looks for bullish/bearish indicators
+   - Future-looking detection checks for predictions, forecasts, and forward-looking statements
+5. Results are organized into a pandas DataFrame for further analysis
 
-Structured output is still an error prone exercise as new libraries attempt to wrangle AI model output into structured formats, but if can figure out how to master it, integrate it into your machine learning workflows, and even automate the creation of ML features and datasets, will have a competitive advantage as a machine learning engineer, AI engineer, or data scientist.
+This demonstrates how to combine LLMs with structured data processing for automated financial news analysis.
+
+# Different models available:
+
+model: str = "llama3.2:3b" # Smaller, faster, but less accurate
+model: str = "openthinker:7b" # Medium size, balanced
+model: str = "deepseek-r1:14b"# Larger, slower but more accurate
+model: str = "gemma3:4b" # Google's model, good for specific tasks
