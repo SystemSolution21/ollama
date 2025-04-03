@@ -1,5 +1,6 @@
 from typing import Iterator, Literal
 import streamlit as st
+from streamlit.delta_generator import DeltaGenerator
 from ollama import ChatResponse, Client
 from dotenv import load_dotenv
 import time
@@ -12,10 +13,11 @@ load_dotenv()
 # Set llm model
 # model: str = "openthinker:7b"
 # model: str = "deepseek-r1:14b"
-model: str = "llama3.2:3b"
+# model: str = "llama3.2:3b"
+model: str = "gemma3:4b"
 
 # Set page config
-st.set_page_config(page_title="Streamlit-llm-Streaming", page_icon="🤖")
+st.set_page_config(page_title="Streamlit-Ollama-Custom-Client-Stream", page_icon="🤖")
 
 # Initialize LLM Client
 client: Client = Client(
@@ -23,18 +25,22 @@ client: Client = Client(
     headers={"x-client-key": os.getenv(key="CLIENT_KEY")},
 )
 
-st.title(body="Streaming LLM Response")
+st.title(body="Streaming Ollama Chat with Custom Client")
+
 st.write("Hello! How can i assist you today?")
 
 # User input
 user_prompt: str = st.text_input(
-    label="Your prompt:", value="Explain streamlit in simple terms"
+    label="Ask any question and press 'Submit' button.", value=""
 )
 
-# Container to hold the streaming response
-response_container = st.empty()
+# Submit button
+submit_btn: bool = st.button(label="Submit")
 
-if st.button(label="Generate Response"):
+# Container to display the streaming response
+response_container: DeltaGenerator = st.empty()
+
+if submit_btn:
     # Display a message while waiting for the response to start
     response_container.markdown(body="*Thinking...*")
 

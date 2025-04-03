@@ -8,10 +8,10 @@ model: str = "deepseek-r1:14b"
 model: str = "gemma3:4b"
 
 # Set page config
-st.set_page_config(page_title="Streamlit-Ollama-llm", page_icon="🐋")
+st.set_page_config(page_title="Streamlit-Ollama-Chat", page_icon="🐋")
 
 # Display title
-st.title(body="Ollama LLM Application")
+st.title(body="Streamlit Ollama Chat")
 
 
 # Generate llm response
@@ -24,10 +24,11 @@ def generate_llm_response(prompt: str) -> None:
     response: ChatResponse = chat(
         model=model,
         messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
             {
                 "role": "user",
                 "content": prompt,
-            }
+            },
         ],
     )
 
