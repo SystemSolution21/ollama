@@ -21,7 +21,7 @@ class FinancialSentimentAnalysis(BaseModel):
     future_looking: bool
 
 
-# Initialize response store result
+# Initialize llm response result
 results: list[dict[str, Any]] = []
 
 # Create llm to analyze news articles
@@ -62,6 +62,9 @@ for title in news_titles:
         format=FinancialSentimentAnalysis.model_json_schema(),
     )
 
+    # debug
+    print(f'{response["message"]["content"] = }')
+
     # Parse the response into financial sentiment analysis model
     financial_sentiment_analysis: FinancialSentimentAnalysis = (
         FinancialSentimentAnalysis.model_validate_json(
@@ -77,6 +80,10 @@ for title in news_titles:
             "future_looking": financial_sentiment_analysis.future_looking,
         }
     )
+
+    # debug
+    print(f"{results = }")
+
 
 # Converts the results to DataFrame
 df: pd.DataFrame = pd.DataFrame(data=results)
