@@ -167,8 +167,8 @@ def main() -> None:
         result: None | tuple[str, str] = process_file(
             file_path=file, output_folder=output_folder, query=query
         )
-    #     if result:
-    #         results.append(result)
+        if result:
+            results.append(result)
 
     # if results:
     #     df = pd.DataFrame(results, columns=["Filename", "Summary"])
