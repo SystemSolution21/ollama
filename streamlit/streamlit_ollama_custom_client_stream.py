@@ -56,7 +56,7 @@ if submit_btn:
 
     # Process the streaming response
     for chunk in stream:
-        if chunk is not None:
+        if chunk:
             # Extract the text from the chunk
             text_chunk = chunk["message"]["content"]
 

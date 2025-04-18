@@ -52,7 +52,7 @@ def generate_llm_chat_stream(prompt: str) -> None:
 
     # Process the stream response
     for chunk in stream:
-        if chunk is not None:
+        if chunk:
             # Extract the text from the chunk
             stream_response += chunk["message"]["content"]
 
