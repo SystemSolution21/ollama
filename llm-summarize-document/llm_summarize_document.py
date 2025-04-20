@@ -5,6 +5,7 @@
 -Save results to individual text files
 """
 
+from typing import Any
 from pathlib import Path
 import re
 import numpy as np
@@ -24,7 +25,7 @@ def read_file(file_path) -> str:
         return file_path.read_text(encoding="utf-8")
 
     elif file_path.suffix.lower() == ".pdf":
-        text = ""
+        text: str = ""
         with file_path.open(mode="rb") as f:
             reader = PyPDF2.PdfReader(stream=f)
 
@@ -53,11 +54,11 @@ def chunk_text(text: str, max_chunk_length: int = 2500) -> list[str]:
     """
     paragraphs: list[str] = text.split(sep="\n")
     chunks: list[str] = []
-    current_chunk = ""
+    current_chunk: str = ""
     for para in paragraphs:
         if len(current_chunk) + len(para) + 1 > max_chunk_length:
             chunks.append(current_chunk.strip())
-            current_chunk: str = para + "\n"
+            current_chunk = para + "\n"
         else:
             current_chunk += para + "\n"
     if current_chunk:
@@ -65,7 +66,7 @@ def chunk_text(text: str, max_chunk_length: int = 2500) -> list[str]:
     return chunks
 
 
-def embed_chunks(chunks: list, embedder) -> np.ndarray:
+def embed_chunks(chunks: list, embedder: SentenceTransformer) -> np.ndarray:
     """
     Compute embedding for each chunk.
     """
@@ -73,12 +74,16 @@ def embed_chunks(chunks: list, embedder) -> np.ndarray:
 
 
 def retrieve_relevant_chunks(
-    query: str, chunks: list, chunk_embeddings: np.ndarray, embedder, top_k: int = 3
+    query: str,
+    chunks: list,
+    chunk_embeddings: np.ndarray,
+    embedder: SentenceTransformer,
+    top_k: int = 3,
 ) -> list:
     """
     Retrieve top_k chunks that are most similar to the query.
     """
-    query_embedding = embedder.encode(query)
+    query_embedding = embedder.encode(sentences=query)
     norms = np.linalg.norm(x=chunk_embeddings, axis=1) * np.linalg.norm(
         x=query_embedding
     )
@@ -190,10 +195,11 @@ def main() -> None:
         if result:
             results.append(result)
 
+    # Save summaries to an Excel file
     if results:
-        df = pd.DataFrame(results, columns=["Filename", "Summary"])
-        excel_path = output_folder / "summaries.xlsx"
-        df.to_excel(excel_path, index=False)
+        df = pd.DataFrame(data=results, columns=["Filename", "Summary"])
+        excel_path: Path = output_folder / "summaries.xlsx"
+        df.to_excel(excel_writer=excel_path, index=False)
         print(f"\nAll summaries saved to {excel_path}")
 
 
