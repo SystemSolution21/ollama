@@ -166,10 +166,8 @@ def main() -> None:
     output_folder.mkdir(exist_ok=True)
 
     # Get all supported files in the input folder
-    files: list[Path] = (
-        list(input_folder.glob(pattern="*.txt"))
-        + list(input_folder.glob(pattern="*.pdf"))
-        + list(input_folder.glob(pattern="*.PDF"))
+    files: list[Path] = list(input_folder.glob(pattern="*.txt")) + list(
+        input_folder.glob(pattern="*.pdf")
     )
 
     # Check if there are any files to process
@@ -192,11 +190,11 @@ def main() -> None:
         if result:
             results.append(result)
 
-    # if results:
-    #     df = pd.DataFrame(results, columns=["Filename", "Summary"])
-    #     excel_path = output_folder / "summaries.xlsx"
-    #     df.to_excel(excel_path, index=False)
-    #     print(f"\nAll summaries saved to {excel_path}")
+    if results:
+        df = pd.DataFrame(results, columns=["Filename", "Summary"])
+        excel_path = output_folder / "summaries.xlsx"
+        df.to_excel(excel_path, index=False)
+        print(f"\nAll summaries saved to {excel_path}")
 
 
 if __name__ == "__main__":

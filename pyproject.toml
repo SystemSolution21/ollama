@@ -10,6 +10,7 @@ dependencies = [
     "flask-sqlalchemy>=3.1.1",
     "gnews>=0.4.1",
     "ollama>=0.4.7",
+    "openpyxl>=3.1.5",
     "pypdf2>=3.0.1",
     "python-dotenv>=1.0.1",
     "requests>=2.32.3",
