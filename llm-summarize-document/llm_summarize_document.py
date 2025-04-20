@@ -47,12 +47,12 @@ def clean_text(text: str) -> str:
     return text[: match.start()] if match else text
 
 
-def chunk_text(text: str, max_chunk_length: int = 2500) -> list:
+def chunk_text(text: str, max_chunk_length: int = 2500) -> list[str]:
     """
     Split text into smaller chunks; for RAG, shorter chunks are easier to retrieve.
     """
     paragraphs: list[str] = text.split(sep="\n")
-    chunks = []
+    chunks: list[str] = []
     current_chunk = ""
     for para in paragraphs:
         if len(current_chunk) + len(para) + 1 > max_chunk_length:
@@ -91,13 +91,20 @@ def rag_summarize(document_text: str, query: str) -> str:
     """
     Given a document and a query, retrieve top relevant chunks and use them to prompt the LLM.
     """
+
+    # Remove sections like 'Bibliography' or 'References' if present.
     cleaned_text: str = clean_text(text=document_text)
-    chunks = chunk_text(text=cleaned_text)
+
+    # Split the cleaned text into smaller chunks.
+    chunks: list[str] = chunk_text(text=cleaned_text)
     print(f"Document split into {len(chunks)} chunks.")
 
-    embedder = SentenceTransformer("all-MiniLM-L6-v2")
-    embeddings = embed_chunks(chunks=chunks, embedder=embedder)
-    relevant_chunks = retrieve_relevant_chunks(
+    # Compute embeddings for each chunk.
+    embedder = SentenceTransformer(model_name_or_path="all-MiniLM-L6-v2")
+    embeddings: np.ndarray = embed_chunks(chunks=chunks, embedder=embedder)
+
+    # Retrieve top relevant chunks.
+    relevant_chunks: list[str] = retrieve_relevant_chunks(
         query=query,
         chunks=chunks,
         chunk_embeddings=embeddings,
@@ -105,15 +112,18 @@ def rag_summarize(document_text: str, query: str) -> str:
         top_k=3,
     )
 
-    context = "\n".join(relevant_chunks)
+    # Combine the relevant chunks into a context.
+    context: str = "\n".join(relevant_chunks)
 
-    prompt = (
+    # Prompt the LLM with the context and the query.
+    prompt: str = (
         f"Question: {query}\n\nContext:\n{context}\n\n"
         "Answer concisely based on the context:"
     )
-
-    response = ollama.generate(model="gemma3:4b", prompt=prompt)
-    return response.get("response", "").strip()
+    response: ollama.GenerateResponse = ollama.generate(
+        model="gemma3:4b", prompt=prompt
+    )
+    return response.get(key="response", default="").strip()
 
 
 def process_file(
@@ -124,6 +134,7 @@ def process_file(
     save the summary as a .txt file, and return (filename, summary).
     """
     try:
+        # Read the file content
         text: str = read_file(file_path=file_path)
 
     except Exception as e:
@@ -131,9 +142,13 @@ def process_file(
         return None
 
     try:
+        # Summarize the text using RAG
         answer: str = rag_summarize(document_text=text, query=query)
+
+        # Save the summary to a .txt file
         output_file: Path = output_folder / f"{file_path.stem}_rag_answer.txt"
-        output_file.write_text(data=answer, encoding="utf-8")
+        with open(file=output_file, mode="w", encoding="utf-8") as f:
+            f.write(answer)
 
         print(f"RAG answer for {file_path.name} saved to {output_file}")
         return file_path.name, answer
@@ -144,24 +159,31 @@ def process_file(
 
 
 def main() -> None:
+
+    # Set input and output folders
     input_folder = Path("input")
     output_folder = Path("output_rag")
     output_folder.mkdir(exist_ok=True)
 
-    query = "Summarize the key points of this document or the main argument."
-
+    # Get all supported files in the input folder
     files: list[Path] = (
         list(input_folder.glob(pattern="*.txt"))
         + list(input_folder.glob(pattern="*.pdf"))
         + list(input_folder.glob(pattern="*.PDF"))
     )
 
+    # Check if there are any files to process
     if not files:
         print("No supported files found in the input folder.")
         return
 
-    results = []
+    # Set query for llm
+    query = "Summarize the key points of this document or the main argument."
 
+    # Initialize results list
+    results: list[tuple[str, str]] = []
+
+    # Process each file
     for file in files:
         print(f"\nProcessing file: {file.name} with RAG.")
         result: None | tuple[str, str] = process_file(
