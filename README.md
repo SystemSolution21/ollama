@@ -17,9 +17,9 @@ Locally installed ollama models:
 - $ open-webui serve
 - http://localhost:8080/auth
 
-## Docker Installation for Open-WebUI:Ollama
+## Docker Installation for Open-WebUI:main(ollama locally installed)
 
-- $ docker run -d -p 3000:8080 -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
+- docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main
 
 # Magentic-UI:
 
