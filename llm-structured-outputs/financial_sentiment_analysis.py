@@ -1,13 +1,14 @@
 from typing import Any
-from ollama import chat, ChatResponse
-from pydantic import BaseModel
+
 import pandas as pd
 from gnews import GNews
-
+from ollama import ChatResponse, chat
+from pydantic import BaseModel
 
 # Fetch news articles
 google_news: GNews = GNews()
-news: Any | list[dict[str, Any]] | list[Any] = google_news.get_news(key="NVDA")
+ticker: str = "NVDA"
+news: Any | list[dict[str, Any]] | list[Any] = google_news.get_news(key=ticker)
 
 # Extract top 10 news titles
 news_titles: list[str] = [article["title"] for article in news[:10]]
@@ -63,7 +64,7 @@ for title in news_titles:
     )
 
     # debug
-    print(f'{response["message"]["content"] = }')
+    print(f"{response["message"]["content"] = }")
 
     # Parse the response into financial sentiment analysis model
     financial_sentiment_analysis: FinancialSentimentAnalysis = (
