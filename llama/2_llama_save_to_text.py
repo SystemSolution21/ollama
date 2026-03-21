@@ -1,11 +1,17 @@
+import os
 from pathlib import Path
+
 import ollama
+from dotenv import load_dotenv
+
+# Load Environment Variables
+load_dotenv()
 
 # Current directory file path
 file_path: Path = Path(__file__).parent
 
 # Set Model and Prompt
-model_llama = "llama3.2:3b"
+model_llama = os.getenv("MODEL_Llama", default="llama3.2:latest")
 prompt = "How to solve quadratic equation x^2+5x+6=0"
 
 # Ollama ChatResponse

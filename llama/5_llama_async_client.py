@@ -1,11 +1,14 @@
 import asyncio
-from typing import AsyncIterator
-from ollama import AsyncClient, ChatResponse
 import os
+
 from dotenv import load_dotenv
+from ollama import AsyncClient
 
 # Load Environment Variables
 load_dotenv()
+
+# Get LLM Model Name
+LLM_MODEL: str = os.getenv(key="LLM_MODEL", default="llama3.2:latest")
 
 
 # Asynchronous Ollama Client Chat
@@ -13,7 +16,6 @@ async def llama_async_client(prompt: str):
     try:
         client_key: str | None = os.getenv(key="CLIENT_KEY")
         if client_key:
-
             # Initialize Asynchronous client with custom host and headers
             async_client = AsyncClient(
                 host="http://localhost:11434",
@@ -22,11 +24,10 @@ async def llama_async_client(prompt: str):
 
             # Send chat messages to Asynchronous Client
             async for chunk in await async_client.chat(
-                model="llama3.2:3b",
+                model=LLM_MODEL,
                 messages=[{"role": "user", "content": prompt}],
                 stream=True,
             ):
-
                 # Output model response
                 print(chunk["message"]["content"], end="", flush=True)
 

@@ -1,7 +1,13 @@
-from ollama import chat, ChatResponse
+import os
+
+from dotenv import load_dotenv
+from ollama import ChatResponse, chat
+
+# Load Environment Variables
+load_dotenv()
 
 # Set llm model
-model: str = "llama3.2:3b"
+model: str = os.getenv(key="MODEL", default="llama3.2:latest")
 
 
 def main(prompt: str) -> ChatResponse:
@@ -25,7 +31,6 @@ def main(prompt: str) -> ChatResponse:
 
 
 if __name__ == "__main__":
-
     result: ChatResponse = main(prompt="Why is the sky blue?")
 
     # Output result

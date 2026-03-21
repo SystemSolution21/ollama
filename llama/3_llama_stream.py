@@ -1,11 +1,19 @@
+import os
 from typing import Iterator
-from ollama import chat, ChatResponse
+
+from dotenv import load_dotenv
+from ollama import ChatResponse, chat
+
+load_dotenv()
+
+# Get LLM Model Name
+LLM_MODEL: str = os.getenv(key="LLM_MODEL", default="llama3.2:latest")
 
 
 def main(prompt: str) -> None:
     # Create Chat Stream
     stream: Iterator[ChatResponse] = chat(
-        model="llama3.2:3b",
+        model=LLM_MODEL,
         messages=[
             {"role": "user", "content": prompt},
         ],

@@ -1,9 +1,13 @@
-from ollama import ChatResponse, Client
 import os
+
 from dotenv import load_dotenv
+from ollama import ChatResponse, Client
 
 # Load Environment Variables
 load_dotenv()
+
+# Get LLM Model Name
+LLM_MODEL: str = os.getenv(key="LLM_MODEL", default="llama3.2:latest")
 
 
 # llama client chat
@@ -19,7 +23,7 @@ def llama_client_chat(prompt: str):
         messages: list[dict[str, str]] = [{"role": "user", "content": prompt}]
 
         # Send the chat request to custom client
-        response: ChatResponse = client.chat(model="llama3.2:3b", messages=messages)
+        response: ChatResponse = client.chat(model=LLM_MODEL, messages=messages)
 
         # Extract and print the response
         print("\nModel Response:")
