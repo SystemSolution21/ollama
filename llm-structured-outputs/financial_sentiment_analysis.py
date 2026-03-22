@@ -13,7 +13,8 @@ news: Any | list[dict[str, Any]] | list[Any] = google_news.get_news(key=ticker)
 # Extract top 10 news titles
 news_titles: list[str] = [article["title"] for article in news[:10]]
 for title in news_titles:
-    print(title)
+    print(f"\n{title = }")
+print()
 
 
 # Define BaseModel for financial sentiment analysis as Structured Output
@@ -64,7 +65,7 @@ for title in news_titles:
     )
 
     # debug
-    print(f"{response["message"]["content"] = }")
+    print(f"\n{response["message"]["content"] = }")
 
     # Parse the response into financial sentiment analysis model
     financial_sentiment_analysis: FinancialSentimentAnalysis = (
@@ -83,9 +84,13 @@ for title in news_titles:
     )
 
     # debug
-    print(f"{results = }")
+    print(f"\n{results = }\n")
 
 
 # Converts the results to DataFrame
+pd.set_option("display.colheader_justify", "center")
 df: pd.DataFrame = pd.DataFrame(data=results)
-print(df)
+index_range: pd.RangeIndex = pd.RangeIndex(start=1, stop=len(df) + 1, step=1)
+df.index = index_range
+
+print(f"\n{df}")

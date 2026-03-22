@@ -5,14 +5,14 @@
 -Save results to individual text files
 """
 
-from typing import Any
-from pathlib import Path
 import re
+from pathlib import Path
+
 import numpy as np
-import pandas as pd
 import ollama
-from sentence_transformers import SentenceTransformer
+import pandas as pd
 import PyPDF2
+from sentence_transformers import SentenceTransformer
 
 file_path: Path = Path(__file__)
 
